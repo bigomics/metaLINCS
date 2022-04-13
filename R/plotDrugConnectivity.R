@@ -1,6 +1,10 @@
 #' Plot Drug Connectivity
 #'
-#' @param dsea is a drug set Enrichment object is the output of getActiveDSEA
+#' @param res is a result object from the output of computeConnectivityEnrichment()
+#' @param contr is a index of the selected contrast
+#' @param drugs is a vector of selected drugs to show 
+#' @param nplots is the number of plots to show
+#' 
 #'
 #' @return a plot of drug connectivity
 #' @export

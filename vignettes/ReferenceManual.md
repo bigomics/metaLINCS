@@ -13,13 +13,13 @@ output:
 
 <!-- toc -->
 
-Januar 03, 2022
+January 03, 2022
 
 ## DESCRIPTION
 
     Package: SpaceLINCS
-    Title: Stratified Perturbation Analysis by Correlation Enrichment of
-        connectivity
+    Title: Stratified Perturbation Analysis by Connectivity Enrichment of
+        LINCS L1000 Signatures
     Version: 0.0.0.9000
     Authors@R: c(
         person("IVO", "KWEE", , "kwee@bigomics.ch", role = "aut", comment = c(ORCID = "0000-0002-2751-4218")),

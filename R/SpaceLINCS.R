@@ -1,14 +1,14 @@
 #' SpaceLINCS: is a new method to visualise correlations between experimental gene expression profiles and drug connectivity map profiles
 #'
 #' The SpaceLINCS package provides three categories of important functions:
-#' computePeturbEnrichment, computeComboEnrichment and plotDrugConnectivity.
+#' computePeturbEnrichment, computeComboEnrichment and several plotting functions
 #'
 #' @section SpaceLINCS functions:
 #'
 #'
 #' computeConnectivityEnrichment: Compute Connectivity Enrichment  based on database and annotation provided as input parameter
 #' USAGE:
-#' computeConnectivityEnrichment(mFC = mFC, mDrugEnrich = mDrugEnrich, DrugsAnnot = DrugsAnnot, methods = "GSEA", nprune = 250, contrast = NULL)
+#' computeConnectivityEnrichment(mFC = mFC, mDrugEnrich = mDrugEnrich, nprune = 250, contrast = NULL)
 #'
 #' plotActivationMap: Plot drug Activity Map.
 #' USAGE:
