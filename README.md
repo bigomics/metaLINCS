@@ -27,7 +27,6 @@ This is a basic example which shows you how to use SpaceLINCS:
 
 ```{r}
 library(SpaceLINCS)
-ls("package:SpaceLINCS")
 
 ## First we compute the connectivity enrichment    
 res <- computeConnectivityEnrichment(mFC, nprune=0)
@@ -37,21 +36,8 @@ names(res)
 moa <- computeMoaEnrichment(res) 
 names(moa)
 
-## Get the mechanism of action results for the first contrast
-head(moa[[1]]$drugClass)
-head(moa[[1]]$targetGene)
-
-## select a contrast for the analysis
-colnames(mFC)
-k=1
-head(selectResult(res,k))
-
 ## Plot the drugs connectivity using plotDrugConnectivity()
-plotDrugConnectivity(res, contr=k)
-
-## If you want to select some drugs manually for plotting
-dd <- head(sort(unique(res$drug)),9)
-plotDrugConnectivity(res, contr=k, drugs=dd, nplots=9)
+plotDrugConnectivity(res, contr=1)
 
 ## Plot the mechanism of action using plotMOA()
 plotMOA(moa, contr=k, type="drugClass", ntop=20)
