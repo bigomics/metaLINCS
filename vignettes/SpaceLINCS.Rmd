@@ -88,16 +88,6 @@ for (i in 1:ncol(R1)) {
 }
 ```
 
-Important to note is that the GSEA plot in this case, instead of
-showing ranked genes, shows the sorted correlation between the
-experiment of interest and each individual dataset in the present of a
-given perturbagen (Fig. 1), and the Enrichment Score (ES) indicates
-the presence of an enriched positive or negative correlation (or
-'connectivity') between the cumulative list of experiments for a given
-perturbagen and the test profile.
-
-![(A-B) Two GSEA plots showing a positively (A) and negatively (B) correlated profile based on the correlation scores of individual drug profiles (green boxes) with a test profile; individual black bars denote ranks based on the correlation coefficients for all experiments corresponding to a particular drug (here palbociclib and strophanthidin). The package correlates a test signature with known drug profiles from one of the selected databases such as(L1000, GDSC, CTRP) and shows similar or opposite profiles by running the GSEA algorithm on the drug profile correlation space. (C) Barplot displaying the most enriched compound MoAs. On the vertical axis, the GSEA normalized enrichment score of the MoA class is plotted. (D) Barplot displaying the most enriched target genes. On the vertical axis, the GSEA normalized enrichment score of the gene target is plotted. (E) An activation matrix showing the most positively or negatively correlated perturbagens across all test profiles. The size of the circles correspond to their relative activation, and are colored according to their upregulation (red) or downregulation (blue) in the contrast profile.](images/1.png "Visual outputs of the package"){width="800"}
-
 
 ## SpaceLINCS Objects
 
@@ -214,20 +204,44 @@ head(moa[[1]]$targetGene)
 
 ### Plot the drugs connectivity using plotDrugConnectivity()
 
-`plotDrugConnectivity()` plots the drug connectivity ad GSEA plot for
-the top 16 drugs.
+`plotDrugConnectivity()` plots the drug connectivity enrichment plots
+for the top most correlated drugs. Important to note is that the
+enrichment plots in this case, instead of showing ranked genes for
+traditional GSEA, now show the sorted correlation between the
+experiment of interest and each individual dataset in the present of a
+given perturbagen. The Enrichment Score (ES) indicates the presence of
+an enriched positive or negative correlation (or 'connectivity')
+between the cumulative list of experiments for a given perturbagen and
+the test profile.
+
+Two GSEA plots below show the top positively and negatively correlated
+profile based on the correlation scores of individual drug profiles
+with a test profile; individual black bars denote ranks based on the
+correlation coefficients for all experiments corresponding to a
+particular drug. The package correlates a test signature with known
+drug profiles from the LINKCS L1000 database and shows similar or
+opposite profiles by running the GSEA algorithm on the drug profile
+correlation space. 
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the drugs connectivity using plotDrugConnectivity()
 plotDrugConnectivity(res, contr=1)
 ```
-
 ![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity.png "Drugs connectivity plots"){width="100%"}
 
 ### Plot the mechanism of action using plotMOA()
 
-The function plotMOA() plots mechanism of action the top 16 enriched
-drugs.
+The function plotMOA() plots the mechanism-of-action enrichment
+plots. When specifying the type as "drugClass", the barplot displays
+the most positively and negatively enriched compound MoA/drug classes
+(top figure). On the vertical axis, the GSEA normalized enrichment
+score of the MoA class is plotted.
+
+When specifying the type as "targetGene", the barplot displays the
+most positively and negatively enriched target genes (bottom
+figure). On the vertical axis, the GSEA normalized enrichment score of
+the gene target is plotted.
+
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the mechanism of action using plotMOA()
@@ -240,11 +254,13 @@ plotMOA(moa, contr=1, type="targetGene", ntop=20)
 
 ### Plot the drug activity map using plotActivationMap()
 
-This plot shows the most positively or negatively correlated
-perturbagens across all test profiles. The size of the circles
+The function `plotActivationMap()` creates an activation matrix
+showing the most positively or negatively correlated perturbagens
+across all test profiles (or contrasts). The size of the circles
 correspond to their relative activation, and are colored according to
 their upregulation (red) or downregulation (blue) in the contrast
 profile.
+
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the drugs activity map using dseaPlotActmap()
