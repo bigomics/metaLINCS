@@ -1,0 +1,40 @@
+if(0) {
+    devtools::load_all()
+    
+    source("../R/computeConnectivityEnrichment.R")
+    source("../R/computeMoaEnrichment.R")
+    source("../R/plotDrugConnectivity.R")
+    source("../R/plotMOA.R")
+    source("../R/plotActivationMap.R")
+    source("../R/SpaceLINCS.R")
+    source("../R/utils.R")
+    
+    ##remotes::install_github("bigomics/SpaceLINCS")
+    library(SpaceLINCS)
+    ls("package:SpaceLINCS")
+    
+    res <- computeConnectivityEnrichment(mFC, nprune=0)
+    names(res)
+    
+    moa <- computeMoaEnrichment(res) 
+    names(moa)
+    
+    ## Get the mechanism of action results for the first contrast
+    head(moa[[1]]$drugClass)
+    head(moa[[1]]$targetGene)
+    
+    ## Plot the drugs connectivity using plotDrugConnectivity()
+    png("plotDrugConnectivity.png",w=1600,h=1000)
+    plotDrugConnectivity(res, contr=1)
+    
+    ## If you want to select some drugs manually for plotting
+    dd <- head(sort(unique(res$drug)),9)
+    plotDrugConnectivity(res, contr=1, drugs=dd, nplots=9)
+    
+    ## Plot the mechanism of action using plotMOA()
+    plotMOA(moa, contr=1, type="drugClass", ntop=20)
+    plotMOA(moa, contr=1, type="targetGene", ntop=20)
+
+    ## Plot the drugs activity map using dseaPlotActmap()
+    plotActivationMap (res, nterms = 60, nfc=20)
+}

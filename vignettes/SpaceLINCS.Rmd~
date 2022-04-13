@@ -1,0 +1,260 @@
+---
+title: "SpaceLINCS: Stratified Perturbation Analysis by Connectivity Enrichment of LINCS L1000 signatures
+author: "Ivo Kwee and Layal Abo Khayal"
+date: "Compiled `r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette: 
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{SpaceLINCS: Stratified Perturbation Analysis by Connectivity Enrichment of LINCS L1000 signatures}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## INTRODUCTION
+
+SpaceLINCS calculates and visualizes the correlation between your
+experimental gene expression profile with perturbations signatures
+from the [LINCS L1000](https://lincsproject.org/LINCS/) drug
+connectivity map. Summarizing the analysis with these perturbation
+databases is difficult because they consist of more than a million of
+profiles, corresponding to different cell lines and varying treatment
+concentrations. SpaceLINCS attempts to efficiently calculate and
+easily visualize the results by performing stratified enrichment tests
+on the connectivity scores. In this way, mechanism-of-action or gene
+targets are easily evident from the analysis.
+
+
+SpaceLINCS R package combines rank correlation and gene set enrichment
+analysis to identify comprehensive analysis at the individual
+perturbagen level and, in the case of drugs, at the mode of action
+level. SpaceLINCS proposes a novel approach to correlate perturbation
+signatures, rather than providing outputs for each perturbation
+experiment individually, it performs additional GSEA steps on the
+output based on the ranked correlation scores for each
+compound. Finally it excutes another GSEA step to combine individual
+compounds into Mechanism of Actions (MoA). The method can be used for
+general perturbation enrichment analysis where repetition of
+experiments under similar but not identical conditions (e.g. different
+drug concentrations or different cell lines) is a concern. There are
+databases focus on detailing gene expression profiles based on the
+exposure of different cell lines to varying concentration of various
+compounds, following the alteration of the expression of a single
+gene, or identifying signatures that correlate with drug activity,
+such as the LINCS L1000 connectivity map (Duan et al, 2014).
+
+
+## INSTALLATION
+
+You can install the development version of SpaceLINCS from
+[GitHub](https://github.com/) with:
+
+
+```{r}
+# install.packages("remotes")
+remotes::install_github("bigomics/SpaceLINCS")
+```
+
+## Methods
+
+The method of computing the perturbation enrichment, based on two
+major calculation steps. First, calculate the weighted pearson
+correlation between the fold change values of the experimental matrix
+and the fold change of genes under various perturbagens(obtain from a
+database). Then calculating the drugs enrichment using GSEA method,
+where the correlation coefficients thus obtained are used to perform a
+GSEA across all the datasets for a given perturbagen.
+
+```{r}
+# sourse code within computePerturbEnrichment function, do not run it, it is for method illustration not part of the workfrlow
+
+#  fist calculation of rank correlation 
+gg <- intersect(rownames(mDrugEnrich), rownames(mFC))
+rnk1 <- apply(mDrugEnrich[gg, , drop = FALSE], 2, rank, na.last = "keep")
+rnk2 <- apply(mFC[gg, , drop = FALSE], 2, rank, na.last = "keep")
+R1 <- WGCNA::cor(rnk1, rnk2, use = "pairwise")
+
+# The calculate the perturbation enrichment.
+xdrugs <- gsub("[@_].*$", "", colnames(mDrugEnrich))
+meta.gmt <- tapply(colnames(mDrugEnrich), xdrugs, list)
+res <- list()
+ for (i in 1:ncol(R1)) {
+      suppressWarnings(res[[i]] <- fgsea::fgseaSimple(meta.gmt, stats = R1[, i], nperm = 1000))
+    }
+```
+
+However the GSEA calculation in this case, the plot instead of showing
+ranked genes, it shows the sorted correlation between the experiment
+of interest and each individual dataset in the present of a given
+perturbagen (Fig. 1), and the Enrichment Score (ES) indicates the
+presence of a positive or negative correlation between the cumulative
+list of experiments for a given perturbagen and the test profile.
+
+![(A-B) Two GSEA plots showing a positively (A) and negatively (B) correlated profile based on the correlation scores of individual drug profiles (green boxes) with a test profile; individual black bars denote ranks based on the correlation coefficients for all experiments corresponding to a particular drug (here palbociclib and strophanthidin). The package correlates a test signature with known drug profiles from one of the selected databases such as(L1000, GDSC, CTRP) and shows similar or opposite profiles by running the GSEA algorithm on the drug profile correlation space. (C) Barplot displaying the most enriched compound MoAs. On the vertical axis, the GSEA normalized enrichment score of the MoA class is plotted. (D) Barplot displaying the most enriched target genes. On the vertical axis, the GSEA normalized enrichment score of the gene target is plotted. (E) An activation matrix showing the most positively or negatively correlated perturbagens across all test profiles. The size of the circles correspond to their relative activation, and are colored according to their upregulation (red) or downregulation (blue) in the contrast profile.](images/1.png "Visual outputs of the package"){width="800"}
+
+User can use Pearson correlation instead of GSEA, by specifying calculation method in computePeturbEnrichment function
+
+    computePeturbEnrichment(mFC, mDrugEnrich, DrugsAnnot, methods = c("GSEA", "cor"))
+
+## SpaceLINCS Objects
+
+SpaceLINCS consists of a group of functions and a group of datasets
+provided with the package as .rda files
+
+### Datasets in SpaceLINCS
+
+#### Fold change matrix (mFC)
+
+Fold change matrix of differential gene expresion from RNAseq data of
+Multiple myelom. The RNAseq data from (Logie et al 2021) study. They
+compared the therapeutic efficacy of the phytochemical kinase
+inhibitor withaferin A with the clinically approved BTK inhibitor
+ibrutinib to target hyperactivated tyrosine kinase signaling in
+glucocorticoid-resistant multiple myeloma cells. The results
+demonstrate that withaferin-A induced cell death of
+glucocorticoid-resistant MM1R cells involves covalent cysteine
+targeting of multiple Hinge-6 domain type tyrosine kinases of the
+kinase cysteinome classification, including BTK.
+
+```{r}
+load(system.file("data","mFC.rda", package = "SpaceLINCS"))
+```
+
+#### Annotation of a set of drugs (DrugsAnnot)
+
+This dataset is a matrix represents the drugs annotation that contains
+drugs' names, targets, mechanism of action , clinical phase, disease
+area, and indication. The source of this drugs annotations is L1000
+repurposing drugs . It is for research use only. and not suitable for
+the Repurposing Hub to make clinical treatment decisions.
+
+```{r}
+load(system.file("data","DrugsAnnot.rda", package = "SpaceLINCS"))
+```
+
+#### The drugs activity matrix (mDrugEnrich)
+
+It is large matrix represents the gene expression fold change of 1001
+genes in the presence of 20220 different drugs concentrations and
+working time. The LINCS L1000 project has collected gene expression
+profiles for thousands of perturbagens at a variety of time points,
+doses, and cell lines. A full list of the chemical and genetic
+perturbations used can be found on the CLUE website along with their
+descriptions.
+
+```{r}
+load(system.file("data","mDrugEnrich.rda", package = "SpaceLINCS"))
+```
+
+### SpaceLINCS Functions
+
+The SpaceLINCS package provides three categories of important
+functions: *computePeturbEnrichment(), computeComboEnrichment() and
+plotDrugConnectivity().*
+
+However the package contains seven functions calculating and
+visualizing the correlations between experimental gene expression
+profiles and the signatures from databases.
+
+In the following the illustration of each function, in the package
+workflow.
+
+## The workflow
+
+### Loading the example data
+
+Within the package there are three R data objects .rda, user can load
+them as is shown in the previous section.
+
+```{r}
+print("the fold change matrix:.....")
+head(mFC)
+print(" the drugs annotation datafrme:.......")
+head(DrugsAnnot)
+print(" the drugs activity large matrix:.....")
+mDrugEnrich[1:5,1:5]
+```
+
+### Calculation the drug enrichment correlation with computePerturbEnrichment()
+
+To calculate the ranked correlation between the tested gene expression
+profile and other datasets signatures in the presence of a given
+perturbagen, based on database and annotation which is provided to the
+function. It can calculate the correlation of drug activity, drug
+sensitivity or other perturbation as gene knocked in/out.
+
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+drugs <- computePeturbEnrichment(mFC, mDrugEnrich, DrugsAnnot, methods = c("GSEA", "cor"))
+View(drugs)
+
+```
+
+`drugs` is object contains 5 elements, `cor` and `GSEA`, are the both
+method to calculate the ranked correlation, each has the correlation
+coefficient, the pvalue and the q-value. The third list `clust` in the
+matrix of optimized coordinates of UMAP clustering. The `stats` is a
+matrix of the first ranking correlation coefficients calculation in
+all contrast of the fold change matrix of the tested expresssion
+profile. The `annot` is the dataframe with drugs annotation.
+
+### Create the drug set enrichment object using getActiveDSEA()
+
+Create the drug set enrichment object that is used in the
+visualization and creating a table summarize the Enrichment
+statistical values (`NES`: normalized enrichment score, `pvalue`,
+`padj`: adjusted pvalue with Benjamini-Hochberg correction, `drug`:
+drug's name, `moa`: the mechanism of action and `target` : is the drug
+targets from the annotation data. )
+
+```{r}
+dsea <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC)
+tb <- dsea$table
+```
+
+### Get the mechanism of action data for each drug getMOA()
+
+getMOA() is used to retrieve the drug's class and the corresponding
+mechanism of action of each drug.
+
+```{r}
+Moa <- getMOA(dsea)
+DMoa <- Moa$drugClass
+Dtarget <- Moa$geneTargets
+```
+
+### Plot the drugs connectivity using plotDrugConnectivity()
+
+plotDrugConnectivity() plots the drug connectivity map or let us call
+it the GSEA plot for the top 16 drugs.
+
+    {plotDrugConnectivity(dsea = dsea)}
+
+![The top 16 drugs correlated negatively and positively with the tested GE profile](images/DrugsConnplot.png "Drugs connectivity plots"){width="559"}
+
+### Plot the mechanism of action using plotMOA()
+
+The function plotMOA() plots mechanism of action the top 16 enriched
+drugs.
+
+    {plotMOA(dsea)}
+
+![Mechnism of Action of the top enriched drugs](images/MOA.png "Mechnism of Action"){width="607"}
+
+### Plot the drugs activity map using dseaPlotActmap()
+
+This plot shows the most positively or negatively correlated
+perturbagens across all test profiles. The size of the circles
+correspond to their relative activation, and are colored according to
+their upregulation (red) or downregulation (blue) in the contrast
+profile.
+
+    dseaPlotActmap (dsea, drugs, method = "GSEA", contr=colnames(mFC)[1], nterms = 50, nfc=20)
+
+![](images/DrugAct.png)

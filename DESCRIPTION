@@ -1,0 +1,41 @@
+Package: SpaceLINCS
+Title: Stratified Perturbation Analysis by Correlation Enrichment of
+    LINCS L1000 connectivity map signatures
+Version: 0.0.0.9000
+Authors@R: c(
+    person("Ivo", "Kwee", , "kwee@bigomics.ch", role = "aut",
+           comment = c(ORCID = "0000-0002-2751-4218")),
+    person("Layal", "Abo Khayal", , "layal.abo.khayal@gmail.com", role = "cre")
+  )
+Description: 'SpaceLINCS' calculates and visualises correlation between
+    experimental gene expression profiles with pertubation signatures from
+    the LINCS L1000 project that has collected gene expression profiles
+    for thousands of perturbagens at a variety of time points, doses, and
+    cell lines.
+License: GPL (>= 3)
+URL: https://github.com/bigomics/SpaceLINCS
+BugReports: https://github.com/bigomics/SpaceLINCS/issues
+Depends: 
+    R (>= 2.10)
+Imports: 
+    corrplot,
+    fgsea,
+    gplots,
+    graphics,
+    Matrix,
+    qlcMatrix,
+    stats,
+    utils,
+    uwot
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression: bzip2
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
