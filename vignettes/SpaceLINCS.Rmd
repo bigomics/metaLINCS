@@ -53,8 +53,8 @@ You can install the development version of SpaceLINCS from
 [GitHub](https://github.com/) with:
 
 
-```{r}
-#install.packages("remotes")
+```{r, eval=FALSE, echo=TRUE}
+install.packages("remotes")
 remotes::install_github("bigomics/SpaceLINCS")
 ```
 
