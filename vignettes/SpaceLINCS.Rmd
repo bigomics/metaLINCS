@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-## INTRODUCTION
+## Introduction
 
 SpaceLINCS calculates and visualizes the correlation between your
 experimental gene expression profile with perturbations signatures
@@ -31,7 +31,7 @@ simplify the results by performing stratified enrichment tests on the
 connectivity scores. In this way, mechanism-of-action or gene targets
 are easily evident from the analysis.
 
-## INSTALLATION
+## Installation
 
 You can install the development version of SpaceLINCS from
 [GitHub](https://github.com/) with:
@@ -59,21 +59,22 @@ repetition of experiments under similar but not identical conditions
 (e.g. different drug concentrations or different cell lines), such as
 the LINCS L1000 connectivity map (Duan et al, 2014).
 
-The method of computing the perturbation enrichment, is based on two
-major calculation steps. First, for the so-called 'connectivities', we
-calculate the rank correlation between the fold change values of the
-experimental matrix and the fold change of genes under various
-perturbagens (obtained from the LINCS L1000 database). We choose
-computing the correlation (over other methods such as GSEA) as it is
-fast because we need to calculate over tens of thousands of
-profiles. The method also indirectly overcomes the limitation that the
-L1000 signatures only measure 1000 genes by using the correlation at
-the first level rather than using gene set based methods that are
-slower but also ideally need the full set of genes. Then, we calculate
-the connectivity enrichment using the GSEA method, where the
-previously computed correlation coefficients are used as ranking
-metric to perform a GSEA across all the datasets for a given
-perturbagen. The two steps are illustrated in the code snippet below:
+The method of computing the perturbation enrichment, is based on three
+major calculation steps. First, for the so-called first level
+'connectivities', we calculate the rank correlation between the fold
+change values of the experimental matrix and the fold change of genes
+under various perturbagens (obtained from the LINCS L1000
+database). We choose computing the correlation (over other methods
+such as GSEA) as it is fast because we need to calculate over tens of
+thousands of profiles. The method also indirectly overcomes the
+limitation that the L1000 signatures only measure 1000 genes by using
+the correlation at the first level rather than using gene set based
+methods that are generally both slower but also ideally need the full
+set of genes. At the second, we calculate the connectivity enrichment using the
+GSEA method, where the previously computed correlation coefficients
+are used as ranking metric to perform a GSEA across all the datasets
+for a given perturbagen. The two steps are illustrated in the code
+snippet below:
 
 ```{r, eval=FALSE, echo=TRUE}
 ## source code within computeConnectivityEnrichment function, do not
@@ -94,19 +95,17 @@ for (i in 1:ncol(R1)) {
 }
 ```
 
-
-## SpaceLINCS Objects
+## Data objects in SpaceLINCS
 
 SpaceLINCS consists of a group of functions and included datasets
 provided in the package.
 
-### Data objects in SpaceLINCS
 
 ```{r}
 library(SpaceLINCS)
 ```
 
-#### Fold change matrix (mFC)
+### Fold change matrix (mFC)
 
 Fold change matrix of differential gene expression from RNAseq data of
 a multiple myeloma study (Logie et al 2021). They compared the
@@ -122,7 +121,7 @@ kinases of the kinase cysteinome classification, including BTK.
 head(mFC)
 ```
 
-#### Annotation of drugs (DrugsAnnot)
+### Annotation of drugs (DrugsAnnot)
 
 This dataset is a matrix represents the drugs annotation that contains
 drug names, targets, mechanism of action , clinical phase, disease
@@ -133,7 +132,7 @@ L1000 database.
 head(DrugsAnnot)
 ```
 
-#### The drugs activity matrix (mDrugEnrich)
+### The drugs activity matrix (mDrugEnrich)
 
 This large matrix represents relative gene expression fold change of
 1001 genes corresponding to 20220 different molecular perturbation
@@ -148,14 +147,12 @@ dim(mDrugEnrich)
 head(mDrugEnrich)[,1:2]
 ```
 
-### SpaceLINCS Functions
+## SpaceLINCS functions and workflow
 
 The SpaceLINCS package provides three categories of important
 functions: computeConnectivityEnrichment(), computeMoaEnrichment() and
 some plotting functions. The following illustrates each function in
 the package in a typical analysis workflow.
-
-## The workflow
 
 
 ### Calculation the drug enrichment with computeConnectivityEnrichment()
@@ -202,7 +199,13 @@ enrichment of drug class and target gene of the drugs.
 ```{r}
 moa <- computeMoaEnrichment(res) 
 names(moa)
+```
 
+After the computation, we get the MoA enrichment results for each
+contrast. Each contrast has two output tables, one for `drugClass` and
+one for `targetGene` MoA enrichment. You can inspect them as follows:
+
+```{r}
 ## Get the mechanism of action results for the first contrast
 head(moa[[1]]$drugClass)
 head(moa[[1]]$targetGene)
@@ -235,28 +238,34 @@ plotDrugConnectivity(res, contr="Resistant.vs.Sensitive")
 ```
 ![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity-RvsS.png "Drugs connectivity plots"){width="100%"}
 
-### Plot the mechanism of action using plotMOA()
+### Plot the mechanism-of-action using plotMOA()
 
-The function plotMOA() plots the mechanism-of-action enrichment
+The function plotMOA() plots the mechanism-of-action (MoA) enrichment
 plots. When specifying the type as "drugClass", the barplot displays
-the most positively and negatively enriched compound MoA/drug classes
-(top figure). On the vertical axis, the GSEA normalized enrichment
-score of the MoA class is plotted.
+the most positively and negatively enriched compounds summarized by
+MoA/drug classes (top figure). On the vertical axis, the GSEA
+normalized enrichment score of the MoA class is plotted.
 
 When specifying the type as "targetGene", the barplot displays the
-most positively and negatively enriched target genes (bottom
-figure). On the vertical axis, the GSEA normalized enrichment score of
-the gene target is plotted.
+most positively and negatively enrichment summarized by target genes
+(bottom figure). On the vertical axis, the GSEA normalized enrichment
+score of the gene target is plotted.
 
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the mechanism of action using plotMOA()
 plotMOA(moa, contr="WithaferinA.vs.Untreated", type="drugClass", ntop=20)
+```
+
+![Drug class MoA enrichment of the top enriched drugs](images/plotMOA-drugClass-WvsU.png "Drug class"){width="100%"}
+
+
+```{r, eval=FALSE, echo=TRUE}
+## Plot the mechanism of action using plotMOA()
 plotMOA(moa, contr="WithaferinA.vs.Untreated", type="targetGene", ntop=20)
 ```
 
-![Mechanism-of-action of the top enriched drugs](images/plotMOA-drugClass-WvsU.png "Drug class"){width="100%"}
-![Target gene enrichment of the top enriched drugs](images/plotMOA-targetGene-WvsU.png "Target gene"){width="100%"}
+![Target gene MoA enrichment of the top enriched drugs](images/plotMOA-targetGene-WvsU.png "Target gene"){width="100%"}
 
 ### Plot the drug activity map using plotActivationMap()
 
@@ -273,4 +282,4 @@ profile.
 plotActivationMap(res, nterms = 60, nfc=20)
 ```
 
-![Activation Matrix for Connectivity scores](images/plotActivationMap.png){width="100%"}
+![Activation map for connectivity scores](images/plotActivationMap.png){width="100%"}

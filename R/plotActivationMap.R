@@ -1,11 +1,9 @@
 #' Plot drug Activity Map
 #'
-#' @param dsea drugs set enrichment analysis object as output of getActiveDSEA
-#' @param drugs a list of drugs enrichment stats and annotations the output of computePeturbEnrichment()
-#' @param method the computation methods of Enrichment, either using GSEA algorithm or the rank correlation.
-#' @param contr is a character string represent the two compared conditions(contrast) as it is provided from the fold-change matrix
-#' @param nterms integer
-#' @param nfc  integer
+#' @param res is a result object from the output of computeConnectivityEnrichment()
+#' @param nterms maximum number of terms (integer)
+#' @param nfc  maximum number of contrasts (integer)
+#' @param rot  rotate the figure (boolean)
 #'
 #' @return plot of drug activity map
 #' @export

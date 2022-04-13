@@ -28,9 +28,7 @@ Plot drug Activity Map
 \examples{
 # from the data-sets provided as examples within the package load the .rda files
 #DrugsAnnot, mDrugEnrich, mFC
-dsea = getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
-drugs= computePeturbEnrichment(mFC = mFC, mDrugEnrich = mDrugEnrich, DrugsAnnot = DrugsAnnot,
-methods = "GSEA", nprune = 250, contrast = NULL)
-plotActivationMap (dsea, drugs, method = "GSEA", contr=colnames(mFC)[1], nterms = 50, nfc=20)
+res <- computeConnectivityEnrichment(mFC)
+plotActivationMap(res, nterms = 50, nfc=20, rot=TRUE)
 
 }

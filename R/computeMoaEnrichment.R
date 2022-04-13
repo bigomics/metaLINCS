@@ -1,6 +1,7 @@
 #' Get the mechanism of action object
 #'
-#' @param dsea is a drug set enrichment object as an output of the function  getActiveDSEA()
+#' @param res is the output object from `computeConnectivityEnrichment()`
+#' @param annot is a drug annotation table with `moa` and `target` columns
 #'
 #' @return MoA Mechanism of Action object
 #' @export
@@ -12,14 +13,13 @@
 #' moa <- computeMoaEnrichment(res)
 computeMoaEnrichment <- function(res, annot = SpaceLINCS::DrugsAnnot ) {
 
-
     ##annot = SpaceLINCS::DrugsAnnot
 
     ## --------------- attach annotation
     annot$drug <- annot$pert_iname
     annot <- annot[match(rownames(res$X), annot$drug), ]
     rownames(annot) <- rownames(res$X)
-    Matrix::head(annot)
+    ##Matrix::head(annot)
     annot <- annot[, c("drug", "moa", "target")]
     
     nc <- ncol(res$X)

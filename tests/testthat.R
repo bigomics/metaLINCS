@@ -1,4 +1,4 @@
 library(testthat)
-library(SPACEconnect)
+library(SpaceLINCS)
 
-test_check("SPACEconnect")
+test_check("SpaceLINCS")

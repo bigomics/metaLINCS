@@ -4,10 +4,16 @@
 \alias{plotDrugConnectivity}
 \title{Plot Drug Connectivity}
 \usage{
-plotDrugConnectivity(res, contr, drugs = NULL, nplots = 16)
+plotDrugConnectivity(res, contr, drugs = NULL, nplots = 25)
 }
 \arguments{
-\item{dsea}{is a drug set Enrichment object is the output of getActiveDSEA}
+\item{res}{is a result object from the output of computeConnectivityEnrichment()}
+
+\item{contr}{is a index of the selected contrast}
+
+\item{drugs}{is a vector of selected drugs to show}
+
+\item{nplots}{is the number of plots to show}
 }
 \value{
 a plot of drug connectivity
@@ -18,6 +24,6 @@ Plot Drug Connectivity
 \examples{
 # from the data-sets provided as examples within the package load the .rda files
 # DrugsAnnot, mDrugEnrich, mFC
-dsea <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
-plotDrugConnectivity(dsea)
+res <- computeConnectivityEnrichment(mFC)
+plotDrugConnectivity(res, contr=1, nplots=16)
 }

@@ -7,7 +7,9 @@
 computeMoaEnrichment(res, annot = SpaceLINCS::DrugsAnnot)
 }
 \arguments{
-\item{dsea}{is a drug set enrichment object as an output of the function  getActiveDSEA()}
+\item{res}{is the output object from \code{computeConnectivityEnrichment()}}
+
+\item{annot}{is a drug annotation table with \code{moa} and \code{target} columns}
 }
 \value{
 MoA Mechanism of Action object
@@ -18,6 +20,6 @@ Get the mechanism of action object
 \examples{
 # from the data-sets provided as examples within the package load the .rda files
 # DrugsAnnot, mDrugEnrich, mFC
-res <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
+res <- computeConnectivityEnrichment(mFC)
 moa <- computeMoaEnrichment(res)
 }
