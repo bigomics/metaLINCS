@@ -1,30 +1,21 @@
 #' Compute Connectivity Enrichment
 #'
-#' @param mFC = A matrix of differential gene expression fold-change of own experiment, the rows name of the matrix must be the genes names
-#' @param mDrugEnrich = a large matrix represents the gene expression fold change in the presence of different perturbations, either various drugs concentrations or other genetic engineering techniques as gene-knock-in etc..
-#' @param DrugsAnnot = is  matrix represents the drugs annotation that contains the targets, mechanism of action , clinical phase, disease area, and indication
-#' @param methods the computation methods of Enrichment, either using GSEA algorithm or the rank correlation.
-#' @param nmin the minimum number of drugs
+#' @param mFC A matrix of differential gene expression fold-change of own experiment, the rows name of the matrix must be the genes names
+#' @param names Names in case mFC is a vector
+#' @param mDrugEnrich a large matrix represents the gene expression fold change in the presence of different perturbations, either various drugs concentrations or other genetic engineering techniques as gene-knock-in etc..
+#' @param nmin the minimum number of experiments in the drug set
 #' @param nprune  takes only the (nprune) top matching drugs for each comparison to reduce the size of the matrix. default is 0 to take the full matrix
-#' @param contrast is a character string represent the two compared conditions(contrast) as it is provided from the fold-change matrix
-#' @return drugs a list of drugs enrichment stats and annotations
+#' @return list of drugs enrichment statistics and annotations
 #' @export
 #' @import stats
-#' @importFrom Matrix sparse.model.matrix
 #' @importFrom Matrix head
-#' @importFrom qlcMatrix  corSparse
 #' @importFrom fgsea  fgseaSimple
-#' @importFrom uwot umap
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
-#' drugs <- computeConnectivityEnrichment(
-#'   mFC = mFC, mDrugEnrich = mDrugEnrich, DrugsAnnot = DrugsAnnot,
-#'   methods = "GSEA", nprune = 250
-#' )
+#' res <- computeConnectivityEnrichment(mFC, mDrugEnrich, nmin=15, nprune = 250)
 computeConnectivityEnrichment <- function(mFC, names=NULL,
                                           mDrugEnrich = SpaceLINCS::mDrugEnrich,
-                                          methods = c("GSEA", "cor"),
                                           nmin = 15, nprune = 250)
 {
     
@@ -73,50 +64,30 @@ computeConnectivityEnrichment <- function(mFC, names=NULL,
 
     ## experiment to drug
     res <- list()
-    methods <- methods[1]
-    if ("cor" %in% methods) {
-        message("Calculating connectivity enrichment using rank correlation ...")
-
-        D <- Matrix::sparse.model.matrix(~ 0 + xdrugs)
-        dim(D)
-        colnames(D) <- sub("^xdrugs", "", colnames(D))
-        rownames(D) <- colnames(mDrugEnrich)
-        rho2 <- qlcMatrix::corSparse(D, R1)
-        rownames(rho2) <- colnames(D)
-        colnames(rho2) <- colnames(R1)
-        rho2 <- rho2[order(-rowMeans(rho2**2)), , drop = FALSE]
-        cor.pvalue <- function(x, n) stats::pnorm(-abs(x / ((1 - x**2) / (n - 2))**0.5))
-        P <- apply(rho2, 2, cor.pvalue, n = nrow(D))
-        Q <- apply(P, 2, stats::p.adjust, method = "fdr")
-        res <- list(X = rho2, Q = Q, P = P)
+    message("Calculating connectivity enrichment using GSEA ...")
+    res0 <- list()
+    i <- 1
+    for (i in 1:ncol(R1)) {
+        suppressWarnings(res0[[i]] <- fgsea::fgseaSimple(meta.gmt, stats = R1[, i], nperm = 1000))
     }
-
-    if ("GSEA" %in% methods) {
-        message("Calculating connectivity enrichment using GSEA ...")
-        res0 <- list()
-        i <- 1
-        for (i in 1:ncol(R1)) {
-            suppressWarnings(res0[[i]] <- fgsea::fgseaSimple(meta.gmt, stats = R1[, i], nperm = 1000))
-        }
-        names(res0) <- colnames(R1)
-        length(res0)
-
-        mNES <- sapply(res0, function(x) x$NES)
-        mQ <- sapply(res0, function(x) x$padj)
-        mP <- sapply(res0, function(x) x$pval)
-        if (length(res0) == 1) {
-            mNES <- cbind(mNES)
-            mP <- cbind(mP)
-            mQ <- cbind(mQ)
-        }
-
-        pw <- res0[[1]]$pathway
-        rownames(mNES) <- rownames(mQ) <- rownames(mP) <- pw
-        colnames(mNES) <- colnames(mQ) <- colnames(mP) <- colnames(mFC)
-        msize <- res0[[1]]$size
-        dim(R1)
-        res <- list(X = mNES, Q = mQ, P = mP, size = msize)
+    names(res0) <- colnames(R1)
+    length(res0)
+    
+    mNES <- sapply(res0, function(x) x$NES)
+    mQ <- sapply(res0, function(x) x$padj)
+    mP <- sapply(res0, function(x) x$pval)
+    if (length(res0) == 1) {
+        mNES <- cbind(mNES)
+        mP <- cbind(mP)
+        mQ <- cbind(mQ)
     }
+    
+    pw <- res0[[1]]$pathway
+    rownames(mNES) <- rownames(mQ) <- rownames(mP) <- pw
+    colnames(mNES) <- colnames(mQ) <- colnames(mP) <- colnames(mFC)
+    msize <- res0[[1]]$size
+    dim(R1)
+    res <- list(X = mNES, Q = mQ, P = mP, size = msize)
     names(res)
 
     ## this takes only the top matching drugs for each comparison to

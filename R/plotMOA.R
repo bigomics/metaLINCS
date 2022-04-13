@@ -10,8 +10,9 @@
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
-#' dsea <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
-#' plotMOA(dsea)
+#' res <- computeConnectivityEnrichment(mFC)
+#' moa <- computeMoaEnrichment(res)
+#' plotMOA(moa, contr=1, type="drugClass", ntop=25)
 plotMOA <- function(moa, contr=NULL, type=c("drugClass","targetGene"), ntop = 20) {
 
     if(length(moa)>1 && is.null(contr)) {

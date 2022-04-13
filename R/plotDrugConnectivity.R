@@ -9,8 +9,8 @@
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
-#' dsea <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
-#' plotDrugConnectivity(dsea)
+#' res <- computeConnectivityEnrichment(mFC)
+#' plotDrugConnectivity(res, contr=1, nplots=16)
 plotDrugConnectivity <- function(res, contr, drugs=NULL, nplots=16) {
 
     dt <- selectResult(res, contr)

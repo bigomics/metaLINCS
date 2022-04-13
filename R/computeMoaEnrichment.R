@@ -8,7 +8,7 @@
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
-#' res <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC, contr = colnames(mFC)[1])
+#' res <- computeConnectivityEnrichment(mFC)
 #' moa <- computeMoaEnrichment(res)
 computeMoaEnrichment <- function(res, annot = SpaceLINCS::DrugsAnnot ) {
 
