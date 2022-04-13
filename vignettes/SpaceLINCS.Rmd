@@ -231,9 +231,9 @@ correlation space.
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the drugs connectivity using plotDrugConnectivity()
-plotDrugConnectivity(res, contr=1)
+plotDrugConnectivity(res, contr="Resistant.vs.Sensitive")
 ```
-![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity.png "Drugs connectivity plots"){width="100%"}
+![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity-RvsS.png "Drugs connectivity plots"){width="100%"}
 
 ### Plot the mechanism of action using plotMOA()
 
@@ -251,12 +251,12 @@ the gene target is plotted.
 
 ```{r, eval=FALSE, echo=TRUE}
 ## Plot the mechanism of action using plotMOA()
-plotMOA(moa, contr=1, type="drugClass", ntop=20)
-plotMOA(moa, contr=1, type="targetGene", ntop=20)
+plotMOA(moa, contr="WithaferinA.vs.Untreated", type="drugClass", ntop=20)
+plotMOA(moa, contr="WithaferinA.vs.Untreated", type="targetGene", ntop=20)
 ```
 
-![Mechanism-of-action of the top enriched drugs](images/plotMOA-drugClass.png "Drug class"){width="100%"}
-![Target gene enrichment of the top enriched drugs](images/plotMOA-targetGene.png "Target gene"){width="100%"}
+![Mechanism-of-action of the top enriched drugs](images/plotMOA-drugClass-WvsU.png "Drug class"){width="100%"}
+![Target gene enrichment of the top enriched drugs](images/plotMOA-targetGene-WvsU.png "Target gene"){width="100%"}
 
 ### Plot the drug activity map using plotActivationMap()
 

@@ -15,7 +15,7 @@
 #' # DrugsAnnot, mDrugEnrich, mFC
 #' res <- computeConnectivityEnrichment(mFC)
 #' plotDrugConnectivity(res, contr=1, nplots=16)
-plotDrugConnectivity <- function(res, contr, drugs=NULL, nplots=16) {
+plotDrugConnectivity <- function(res, contr, drugs=NULL, nplots=25) {
 
     dt <- selectResult(res, contr)
 
