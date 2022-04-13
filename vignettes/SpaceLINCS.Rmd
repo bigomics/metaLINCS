@@ -69,7 +69,7 @@ where the previously computed correlation coefficients are used as
 ranking metric to perform a GSEA across all the datasets for a given
 perturbagen.
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 ## source code within computeConnectivityEnrichment function, do not
 ## run it, it is for method illustration not part of the workflow
 
@@ -106,6 +106,10 @@ provided in the package.
 
 ### Data objects in SpaceLINCS
 
+```{r}
+library(SpaceLINCS)
+```
+
 #### Fold change matrix (mFC)
 
 Fold change matrix of differential gene expression from RNAseq data of
@@ -119,7 +123,7 @@ covalent cysteine targeting of multiple Hinge-6 domain type tyrosine
 kinases of the kinase cysteinome classification, including BTK.
 
 ```{r}
-load(system.file("data","mFC.rda", package = "SpaceLINCS"))
+head(mFC)
 ```
 
 #### Annotation of drugs (DrugsAnnot)
@@ -130,7 +134,7 @@ area, and indication. This annotation was retrieved from the LINCS
 L1000 database.
 
 ```{r}
-load(system.file("data","DrugsAnnot.rda", package = "SpaceLINCS"))
+head(DrugsAnnot)
 ```
 
 #### The drugs activity matrix (mDrugEnrich)
@@ -144,7 +148,8 @@ perturbations used can be found on the CLUE website along with their
 descriptions.
 
 ```{r}
-load(system.file("data","mDrugEnrich.rda", package = "SpaceLINCS"))
+dim(mDrugEnrich)
+head(mDrugEnrich)[,1:2]
 ```
 
 ### SpaceLINCS Functions
@@ -156,39 +161,28 @@ the package in a typical analysis workflow.
 
 ## The workflow
 
-### Loading the example data
-
-Within the package there are three R data objects .rda, the user can
-load them as is shown in the previous section. Inspect them with:
-
-```{r}
-print("the fold change matrix:.....")
-head(mFC)
-print(" the drugs annotation dataframe:.......")
-head(DrugsAnnot)
-print(" the drugs activity large matrix:.....")
-mDrugEnrich[1:5,1:5]
-```
 
 ### Calculation the drug enrichment with computeConnectivityEnrichment()
 
 Calculate the rank correlation between the tested gene expression
 profile and other datasets signatures in the presence of a given
 perturbagen, based on database and annotation which is provided to the
-function.
+function. Here `mFC` is the user supplied fold-change matrix with
+genes on the rows and contrasts on the columns. Then we can compute
+the connectivities and the connectivity enrichment using:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 res <- computeConnectivityEnrichment(mFC, nprune=0)
 names(res)
 ```
 
-The `res` object contains 6 elements, matrices `X`, `P` and `Q`,
-correspond to the enrichment coefficient, the pvalue and the q-value
-for all contrasts. The `size` vector denotes the size of the drug set
-(number of replicates). The `stats` matrix is the ranking metric
-(connectivity or rank correlation coefficients) the tested expresssion
-profile with the perturbation profiles. The `drug` object annotates
-the ranking metric with a first level of drug annotation.
+The `res` output object contains 6 elements, matrices `X`, `P` and
+`Q`, correspond to the enrichment coefficient, the pvalue and the
+q-value for all contrasts. The `size` vector denotes the size of the
+drug set (number of replicates). The `stats` matrix is the ranking
+metric (connectivity or rank correlation coefficients) the tested
+expresssion profile with the perturbation profiles. The `drug` object
+annotates the ranking metric with a first level of drug annotation.
 
 ### Select/view drug set enrichment object using selectResult()
 
@@ -201,7 +195,7 @@ with Benjamini-Hochberg correction.)
 
 ```{r}
 res1 <- selectResult(res,1)
-View(res1)
+head(res1)
 ```
 
 ### Compute the mechanism-of-action enrichment computeMoaEnrichment()
@@ -223,26 +217,26 @@ head(moa[[1]]$targetGene)
 `plotDrugConnectivity()` plots the drug connectivity ad GSEA plot for
 the top 16 drugs.
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 ## Plot the drugs connectivity using plotDrugConnectivity()
 plotDrugConnectivity(res, contr=1)
 ```
 
-![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity.png "Drugs connectivity plots"){width="559"}
+![The top 16 drugs correlated with the tested GE profile](images/plotDrugConnectivity.png "Drugs connectivity plots"){width="100%"}
 
 ### Plot the mechanism of action using plotMOA()
 
 The function plotMOA() plots mechanism of action the top 16 enriched
 drugs.
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 ## Plot the mechanism of action using plotMOA()
 plotMOA(moa, contr=1, type="drugClass", ntop=20)
 plotMOA(moa, contr=1, type="targetGene", ntop=20)
 ```
 
-![Mechanism-of-action of the top enriched drugs](plotMOA-drugClass.png "Drug class"){width="607"}
-![Target gene enrichment of the top enriched drugs](plotMOA-targetGene.png "Target gene"){width="607"}
+![Mechanism-of-action of the top enriched drugs](images/plotMOA-drugClass.png "Drug class"){width="100%"}
+![Target gene enrichment of the top enriched drugs](images/plotMOA-targetGene.png "Target gene"){width="100%"}
 
 ### Plot the drug activity map using plotActivationMap()
 
@@ -252,9 +246,9 @@ correspond to their relative activation, and are colored according to
 their upregulation (red) or downregulation (blue) in the contrast
 profile.
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 ## Plot the drugs activity map using dseaPlotActmap()
 plotActivationMap(res, nterms = 60, nfc=20)
 ```
 
-![](images/plotActivationMap.png)
+![Activation Matrix for Connectivity scores](images/plotActivationMap.png){width="100%"}

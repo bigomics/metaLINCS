@@ -26,24 +26,37 @@ remotes::install_github("bigomics/SpaceLINCS")
 This is a basic example which shows you how to use SpaceLINCS:
 
 ```{r}
-load(system.file("data","mFC.rda", package = "SpaceLINCS"))
-load(system.file("data","DrugsAnnot.rda", package = "SpaceLINCS"))
-load(system.file("data","mDrugEnrich.rda", package = "SpaceLINCS"))
+library(SpaceLINCS)
+ls("package:SpaceLINCS")
 
-drugs <- computePeturbEnrichment(mFC, mDrugEnrich, DrugsAnnot, methods = c("GSEA", "cor"))
-dsea <- getActiveDSEA(mDrugEnrich, DrugsAnnot, mFC)
+## First we compute the connectivity enrichment    
+res <- computeConnectivityEnrichment(mFC, nprune=0)
+names(res)
 
-### Get the mechanism of action data for each drug getMOA()
-Moa <- getMOA(dsea)
-DMoa <- Moa$drugClass
-Dtarget <- Moa$geneTargets
+## Now compute the MOA enrichment
+moa <- computeMoaEnrichment(res) 
+names(moa)
 
-### Plot the drugs connectivity using plotDrugConnectivity()
-plotDrugConnectivity(dsea = dsea)
+## Get the mechanism of action results for the first contrast
+head(moa[[1]]$drugClass)
+head(moa[[1]]$targetGene)
 
-### Plot the mechanism of action using plotMOA()
-plotMOA(dsea)
+## select a contrast for the analysis
+colnames(mFC)
+k=1
+head(selectResult(res,k))
 
-### Plot the drugs activity map using dseaPlotActmap()
-dseaPlotActmap (dsea, drugs, method = "GSEA", contr=colnames(mFC)[1], nterms = 50, nfc=20)
+## Plot the drugs connectivity using plotDrugConnectivity()
+plotDrugConnectivity(res, contr=k)
+
+## If you want to select some drugs manually for plotting
+dd <- head(sort(unique(res$drug)),9)
+plotDrugConnectivity(res, contr=k, drugs=dd, nplots=9)
+
+## Plot the mechanism of action using plotMOA()
+plotMOA(moa, contr=k, type="drugClass", ntop=20)
+plotMOA(moa, contr=k, type="targetGene", ntop=20)
+    
+## Plot the drugs activity map using plotActivationMap()
+plotActivationMap(res, nterms = 60, nfc=20, rot=FALSE)
 ```

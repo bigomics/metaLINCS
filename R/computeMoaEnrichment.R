@@ -48,9 +48,9 @@ computeMoaEnrichment <- function(res, annot = SpaceLINCS::DrugsAnnot ) {
     jj <- match(toupper(drug), toupper(rownames(annot)))
     annot1 <- annot[jj, c("moa", "target")]
     dt <- data.frame(drug = drug, NES = nes, pval = pv, padj = qv, annot1)    
-    sel <- which(dt$moa != "" | dt$target != "")
-    dts <- dt[sel, , drop = FALSE]    
-    return(dts)
+    ##sel <- which(dt$moa != "" | dt$target != "")
+    ##dt <- dt[sel, , drop = FALSE]    
+    return(dt)
 }
 
 
