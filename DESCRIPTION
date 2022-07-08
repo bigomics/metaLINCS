@@ -1,13 +1,12 @@
-Package: SpaceLINCS
-Title: Stratified Perturbation Analysis by Correlation Enrichment of
-    LINCS L1000 connectivity map signatures
+Package: metaLINCS
+Title: Meta-level analysis between experimental gene expression profiles and LINCS L1000 connectivity map signatures
 Version: 0.9.0
 Authors@R: c(
     person("Ivo", "Kwee", , "kwee@bigomics.ch", role = "aut",
            comment = c(ORCID = "0000-0002-2751-4218")),
     person("Layal", "Abo Khayal", , "layal.abo.khayal@gmail.com", role = "cre")
   )
-Description: 'SpaceLINCS' calculates and visualises correlation between
+Description: 'metaLINCS' calculates and visualises correlation between
     experimental gene expression profiles with pertubation signatures from
     the LINCS L1000 project that has collected gene expression profiles
     for thousands of perturbagens at a variety of time points, doses, and
