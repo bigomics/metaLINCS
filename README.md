@@ -1,38 +1,38 @@
-# SpaceLINCS: Stratified Perturbation Analysis by Connectivity Enrichment of LINCS L1000 signatures
+# metaLINCS: an R package to perform meta-level analysis between experimental gene expression profiles and LINCS L1000 connectivity map signatures
 
-SpaceLINCS calculates and visualizes the correlation between your
+MetaLINCS calculates and visualizes the correlation between your
 experimental gene expression profile with perturbations signatures
 from the [LINCS L1000](https://lincsproject.org/LINCS/) drug
 connectivity map. Summarizing the analysis with these perturbation
 databases is difficult because they consist of more than a million of
 profiles, corresponding to different cell lines and varying treatment
-concentrations. SpaceLINCS attempts to efficiently calculate and
-easily visualize the results by performing stratified enrichment tests
+concentrations. MetaLINCS attempts to efficiently calculate and
+easily visualize the results by performing meta-level enrichment tests
 on the connectivity scores. In this way, mechanism-of-action or gene
 targets are easily evident from the analysis.
 
 ## Installation
 
-You can install the development version of SpaceLINCS from
+You can install the development version of metaLINCS from
 [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("bigomics/SpaceLINCS")
+remotes::install_github("bigomics/metaLINCS")
 ```
 
 ## Example
 
-This is a basic example which shows you how to use SpaceLINCS:
+This is a basic example which shows you how to use metaLINCS:
 
 ```{r}
-library(SpaceLINCS)
+library(metaLINCS)
 
 ## First we compute the connectivity enrichment    
 res <- computeConnectivityEnrichment(mFC, nprune=0)
 names(res)
 
-## Now compute the MOA enrichment
+## Now compute the MoA enrichment
 moa <- computeMoaEnrichment(res) 
 names(moa)
 
