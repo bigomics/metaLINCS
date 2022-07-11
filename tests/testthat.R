@@ -1,4 +1,4 @@
 library(testthat)
-library(SpaceLINCS)
+library(metaLINCS)
 
-test_check("SpaceLINCS")
+test_check("metaLINCS")

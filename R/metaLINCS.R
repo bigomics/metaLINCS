@@ -1,9 +1,9 @@
-#' SpaceLINCS: is a new method to visualise correlations between experimental gene expression profiles and drug connectivity map profiles
+#' metaLINCS: is a new method to visualise correlations between experimental gene expression profiles and drug connectivity map profiles
 #'
-#' The SpaceLINCS package provides three categories of important functions:
+#' The metaLINCS package provides three categories of important functions:
 #' computePeturbEnrichment, computeComboEnrichment and several plotting functions
 #'
-#' @section SpaceLINCS functions:
+#' @section metaLINCS functions:
 #'
 #'
 #' computeConnectivityEnrichment: Compute Connectivity Enrichment  based on database and annotation provided as input parameter
@@ -28,5 +28,5 @@
 #'
 #'
 #' @docType package
-#' @name SpaceLINCS
+#' @name metaLINCS
 NULL

@@ -4,7 +4,7 @@
 \alias{computeMoaEnrichment}
 \title{Get the mechanism of action object}
 \usage{
-computeMoaEnrichment(res, annot = SpaceLINCS::DrugsAnnot)
+computeMoaEnrichment(res, annot = metaLINCS::DrugsAnnot)
 }
 \arguments{
 \item{res}{is the output object from \code{computeConnectivityEnrichment()}}

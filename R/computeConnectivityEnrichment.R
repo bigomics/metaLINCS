@@ -15,7 +15,7 @@
 #' # DrugsAnnot, mDrugEnrich, mFC
 #' res <- computeConnectivityEnrichment(mFC, mDrugEnrich, nmin=15, nprune = 250)
 computeConnectivityEnrichment <- function(mFC, names=NULL,
-                                          mDrugEnrich = SpaceLINCS::mDrugEnrich,
+                                          mDrugEnrich = metaLINCS::mDrugEnrich,
                                           nmin = 15, nprune = 250)
 {
     
@@ -98,13 +98,13 @@ computeConnectivityEnrichment <- function(mFC, names=NULL,
         ##mtop <- apply(abs(res$X), 2, function(x) Matrix::head(order(-x), nprune)) ## absolute NES!!
         rx   <- apply(abs(res$X), 2, order)
         rownames(rx) <- rownames(res$X)
-        mtop <- names(head(sort(rowMeans(rx), decreasing=TRUE),ntop))
+        mtop <- names(head(sort(rowMeans(rx), decreasing=TRUE),nprune))
         length(mtop)
         top.idx <- unique(unlist(meta.gmt[mtop]))
         length(top.idx)
-        res$X <- res$X[mtop, , drop = FALSE]
-        res$P <- res$P[mtop, , drop = FALSE]
-        res$Q <- res$Q[mtop, , drop = FALSE]
+        res$X <- res$X[mtop, ,drop = FALSE]
+        res$P <- res$P[mtop, ,drop = FALSE]
+        res$Q <- res$Q[mtop, ,drop = FALSE]
         res$size <- res$size[mtop]
     }
 

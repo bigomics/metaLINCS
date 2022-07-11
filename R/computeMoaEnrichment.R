@@ -11,9 +11,9 @@
 #' # DrugsAnnot, mDrugEnrich, mFC
 #' res <- computeConnectivityEnrichment(mFC)
 #' moa <- computeMoaEnrichment(res)
-computeMoaEnrichment <- function(res, annot = SpaceLINCS::DrugsAnnot ) {
+computeMoaEnrichment <- function(res, annot = metaLINCS::DrugsAnnot ) {
 
-    ##annot = SpaceLINCS::DrugsAnnot
+    ##annot = metaLINCS::DrugsAnnot
 
     ## --------------- attach annotation
     annot$drug <- annot$pert_iname

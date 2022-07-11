@@ -12,7 +12,7 @@ The drugs activity on 1001 genes
 
 }
 \usage{
-   SpaceLINCS::mDrugEnrich
+   metaLINCS::mDrugEnrich
 }
 \format{
   
@@ -42,7 +42,7 @@ The drugs activity on 1001 genes
 
 }
 \examples{
-head(SpaceLINCS::mDrugEnrich)
+head(metaLINCS::mDrugEnrich)
 ## maybe str(mDrugEnrich) ; plot(mDrugEnrich) ...
 }
 \keyword{datasets}

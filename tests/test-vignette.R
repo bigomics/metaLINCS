@@ -6,13 +6,13 @@ if(0) {
     source("../R/plotDrugConnectivity.R")
     source("../R/plotMOA.R")
     source("../R/plotActivationMap.R")
-    source("../R/SpaceLINCS.R")
+    source("../R/metaLINCS.R")
     source("../R/utils.R")
     
-    ##remotes::install_github("bigomics/SpaceLINCS")
-    remove.packages("SpaceLINCS")
-    library(SpaceLINCS)
-    ls("package:SpaceLINCS")
+    ##remotes::install_github("bigomics/metaLINCS")
+    remove.packages("metaLINCS")
+    library(metaLINCS)
+    ls("package:metaLINCS")
 
     ## First we compute the connectivity enrichment    
     res <- computeConnectivityEnrichment(mFC, nprune=0)

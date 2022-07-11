@@ -1,12 +1,12 @@
 ---
-title: "SpaceLINCS: Stratified Perturbation Analysis by Connectivity Enrichment of LINCS L1000 signatures"
+title: "metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using hierarchical connectivity mapping"
 author: "Ivo Kwee and Layal Abo Khayal"
 date: "Compiled `r Sys.Date()`"
 output: 
   rmarkdown::html_vignette: 
     toc: true
 vignette: >
-  %\VignetteIndexEntry{SpaceLINCS: Stratified Perturbation Analysis by Connectivity Enrichment of LINCS L1000 signatures}
+  %\VignetteIndexEntry{metaLINCS: metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using hierarchical connectivity mapping}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -20,34 +20,34 @@ knitr::opts_chunk$set(
 
 ## Introduction
 
-SpaceLINCS calculates and visualizes the correlation between your
+metaLINCS calculates and visualizes the correlation between your
 experimental gene expression profile with perturbations signatures
 from the [LINCS L1000](https://lincsproject.org/LINCS/) drug
 connectivity map. Summarizing the analysis with these perturbation
 databases is difficult because they consist of over a million of
 profiles, mixing different cell lines and varying treatment
-concentrations. SpaceLINCS attempts to efficiently calculate and
+concentrations. metaLINCS attempts to efficiently calculate and
 simplify the results by performing stratified enrichment tests on the
 connectivity scores. In this way, mechanism-of-action or gene targets
 are easily evident from the analysis.
 
 ## Installation
 
-You can install the development version of SpaceLINCS from
+You can install the development version of metaLINCS from
 [GitHub](https://github.com/) with:
 
 
 ```{r, eval=FALSE, echo=TRUE}
 install.packages("remotes")
-remotes::install_github("bigomics/SpaceLINCS")
+remotes::install_github("bigomics/metaLINCS")
 ```
 
 ## Computation method
 
-SpaceLINCS combines rank correlation and GSEA (gene set enrichment
+metaLINCS combines rank correlation and GSEA (gene set enrichment
 analysis) to identify comprehensive analysis at the individual
 perturbagen level and, in the case of drugs, at the mode-of-action
-(MOA). SpaceLINCS proposes a novel approach to correlate perturbation
+(MOA). metaLINCS proposes a novel approach to correlate perturbation
 signatures, rather than providing outputs for each perturbation
 experiment individually, it performs additional GSEA steps on the
 output based on the ranked correlation scores for each
@@ -95,14 +95,14 @@ for (i in 1:ncol(R1)) {
 }
 ```
 
-## Data objects in SpaceLINCS
+## Data objects in metaLINCS
 
-SpaceLINCS consists of a group of functions and included datasets
+metaLINCS consists of a group of functions and included datasets
 provided in the package.
 
 
 ```{r}
-library(SpaceLINCS)
+library(metaLINCS)
 ```
 
 ### Fold change matrix (mFC)
@@ -147,9 +147,9 @@ dim(mDrugEnrich)
 head(mDrugEnrich)[,1:2]
 ```
 
-## SpaceLINCS functions and workflow
+## metaLINCS functions and workflow
 
-The SpaceLINCS package provides three categories of important
+The metaLINCS package provides three categories of important
 functions: computeConnectivityEnrichment(), computeMoaEnrichment() and
 some plotting functions. The following illustrates each function in
 the package in a typical analysis workflow.

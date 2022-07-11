@@ -7,7 +7,7 @@
 computeConnectivityEnrichment(
   mFC,
   names = NULL,
-  mDrugEnrich = SpaceLINCS::mDrugEnrich,
+  mDrugEnrich = metaLINCS::mDrugEnrich,
   nmin = 15,
   nprune = 250
 )

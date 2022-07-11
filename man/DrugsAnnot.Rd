@@ -34,7 +34,7 @@ HUB.
 Corsello SM, et al. Nature Medicine. 2017 Apr 7;23(4):405-408. doi: 10.1038/nm.4306
 }
 \examples{
-head(SpaceLINCS::DrugsAnnot)
+head(metaLINCS::DrugsAnnot)
 ## str(DrugsAnnot) 
 }
 \keyword{datasets}
