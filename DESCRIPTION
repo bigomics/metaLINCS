@@ -1,5 +1,5 @@
 Package: metaLINCS
-Title: Meta-level analysis between experimental gene expression profiles and LINCS L1000 connectivity map signatures
+Title: Enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
 Version: 0.9.0
 Authors@R: c(
     person("Ivo", "Kwee", , "kwee@bigomics.ch", role = "aut",

@@ -1,12 +1,12 @@
 ---
-title: "metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using hierarchical connectivity mapping"
+title: "metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping"
 author: "Ivo Kwee and Layal Abo Khayal"
 date: "Compiled `r Sys.Date()`"
 output: 
   rmarkdown::html_vignette: 
     toc: true
 vignette: >
-  %\VignetteIndexEntry{metaLINCS: metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using hierarchical connectivity mapping}
+  %\VignetteIndexEntry{metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
