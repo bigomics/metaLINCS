@@ -1,4 +1,4 @@
-#' metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
+#' metaLINCS: an R package for stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
 #'
 #' The metaLINCS package provides three categories of important functions:
 #' computePeturbEnrichment, computeComboEnrichment and several plotting functions

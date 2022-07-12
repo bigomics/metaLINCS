@@ -1,4 +1,4 @@
-# metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
+# metaLINCS: an R package for stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
 
 MetaLINCS calculates and visualizes the correlation between your
 experimental gene expression profile with perturbations signatures
@@ -6,10 +6,10 @@ from the [LINCS L1000](https://lincsproject.org/LINCS/) drug
 connectivity map. Summarizing the analysis with these perturbation
 databases is difficult because they consist of more than a million of
 profiles, corresponding to different cell lines and varying treatment
-concentrations. MetaLINCS attempts to efficiently calculate and
-easily visualize the results by performing meta-level enrichment tests
-on the connectivity scores. In this way, mechanism-of-action or gene
-targets are easily evident from the analysis.
+concentrations. MetaLINCS attempts to efficiently calculate and easily
+visualize the results by performing meta-level enrichment tests on the
+connectivity scores. In this way, mechanism-of-action or gene targets
+are easily evident from the analysis.
 
 ## Installation
 

@@ -1,12 +1,12 @@
 ---
-title: "metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping"
+title: "metaLINCS: an R package for stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping"
 author: "Ivo Kwee and Layal Abo Khayal"
 date: "Compiled `r Sys.Date()`"
 output: 
   rmarkdown::html_vignette: 
     toc: true
 vignette: >
-  %\VignetteIndexEntry{metaLINCS: an R package for enrichment analysis of LINCS L1000 drug signatures using meta-level connectivity mapping}
+  %\VignetteIndexEntry{metaLINCS: an R package for stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -47,7 +47,7 @@ remotes::install_github("bigomics/metaLINCS")
 metaLINCS combines rank correlation and GSEA (gene set enrichment
 analysis) to identify comprehensive analysis at the individual
 perturbagen level and, in the case of drugs, at the mode-of-action
-(MOA). metaLINCS proposes a novel approach to correlate perturbation
+(MoA). metaLINCS proposes a novel approach to correlate perturbation
 signatures, rather than providing outputs for each perturbation
 experiment individually, it performs additional GSEA steps on the
 output based on the ranked correlation scores for each
@@ -164,7 +164,7 @@ function. Here `mFC` is the user supplied fold-change matrix with
 genes on the rows and contrasts on the columns. Then we can compute
 the connectivities and the connectivity enrichment using:
 
-```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+```{r}
 res <- computeConnectivityEnrichment(mFC, nprune=0)
 names(res)
 ```
@@ -187,8 +187,8 @@ summarizes the enrichment statistical values (`drug`: drug's name,
 with Benjamini-Hochberg correction.)
 
 ```{r}
-res1 <- selectResult(res,1)
-head(res1)
+res2 <- selectResult(res,1)
+head(res2)
 ```
 
 ### Compute the mechanism-of-action enrichment computeMoaEnrichment()

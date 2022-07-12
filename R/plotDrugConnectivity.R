@@ -83,7 +83,8 @@ plotDrugConnectivity <- function(res, contr, drugs=NULL, nplots=25) {
 #' @export
 #' 
 #' @examples
-#' res1 <- selectResult(res,1)
+#' res <- computeConnectivityEnrichment(mFC)
+#' head(selectResult(res,1))
 selectResult <- function(res, contr)
 {
     nes <- round(res$X[, contr], 4)

@@ -7,17 +7,13 @@
 plotActivationMap(res, nterms = 60, nfc = 20, rot = FALSE)
 }
 \arguments{
-\item{nterms}{integer}
+\item{res}{is a result object from the output of computeConnectivityEnrichment()}
 
-\item{nfc}{integer}
+\item{nterms}{maximum number of terms (integer)}
 
-\item{dsea}{drugs set enrichment analysis object as output of getActiveDSEA}
+\item{nfc}{maximum number of contrasts (integer)}
 
-\item{drugs}{a list of drugs enrichment stats and annotations the output of computePeturbEnrichment()}
-
-\item{method}{the computation methods of Enrichment, either using GSEA algorithm or the rank correlation.}
-
-\item{contr}{is a character string represent the two compared conditions(contrast) as it is provided from the fold-change matrix}
+\item{rot}{rotate the figure (boolean)}
 }
 \value{
 plot of drug activity map

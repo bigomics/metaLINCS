@@ -18,5 +18,6 @@ selected result for selected contrast
 Select result
 }
 \examples{
-res1 <- selectResult(res,1)
+res <- computeConnectivityEnrichment(mFC)
+head(selectResult(res,1))
 }

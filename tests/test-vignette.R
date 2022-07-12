@@ -17,6 +17,12 @@ if(0) {
     ## First we compute the connectivity enrichment    
     res <- computeConnectivityEnrichment(mFC, nprune=0)
     names(res)
+
+    png("../vignettes/images/cmap.png",w=3600,h=2400,res=480)
+    rdbu <- RColorBrewer::brewer.pal(n=8, name = "RdBu")
+    ii <- 1:100
+    heatmap(t(res$X[ii,]), mar=c(20,10), col=rdbu)
+    dev.off()
     
     ## Now compute the MOA enrichment
     moa <- computeMoaEnrichment(res) 
