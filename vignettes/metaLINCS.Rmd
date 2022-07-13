@@ -283,3 +283,23 @@ plotActivationMap(res, nterms = 60, nfc=20)
 ```
 
 ![Activation map for connectivity scores](images/plotActivationMap.png){width="100%"}
+
+
+## Using other databases than LINCS L1000
+
+SpaceLINCS was intended for the L1000 database to statistically
+summarize repeated experiments under similar, but not identical,
+conditions such as different drug concentrations or different cell
+lines. Such collections include various drug sensitivity databases,
+such as the Genomics for Drug Sensitivity in Cancer (GDSC) database or
+the Cancer Therapeutics Response Portal (CTRP). 
+
+These other reference datasets can be used by prefixing the names of
+the reference profiles in the header using the pattern:
+[drug]_[profileID] or [drug]@[profileID].  This will group all
+profiles with the same prefix to the same corresponding drug. Also
+keep in mind the drug annotation table included in the package uses
+the `cmap_name` as names for the drugs. If you have perturbation names
+that differ from this this nomenclature, you will have to provide your
+own annotation table `DrugsAnnot` (with at least `moa` and `target`
+columns) to be able to perform MoA and/or target gene analysis.
