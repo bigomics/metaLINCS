@@ -40,8 +40,8 @@ names(moa)
 plotDrugConnectivity(res, contr=1)
 
 ## Plot the mechanism of action using plotMOA()
-plotMOA(moa, contr=k, type="drugClass", ntop=20)
-plotMOA(moa, contr=k, type="targetGene", ntop=20)
+plotMOA(moa, contr=1, type="drugClass", ntop=20)
+plotMOA(moa, contr=1, type="targetGene", ntop=20)
     
 ## Plot the drugs activity map using plotActivationMap()
 plotActivationMap(res, nterms = 60, nfc=20, rot=FALSE)
