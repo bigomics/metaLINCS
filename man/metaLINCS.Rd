@@ -3,7 +3,7 @@
 \docType{package}
 \name{metaLINCS}
 \alias{metaLINCS}
-\title{metaLINCS: an R package for meta-analysis of LINCS L1000 drug signatures using stratified connectivity mapping}
+\title{metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using stratified connectivity mapping}
 \description{
 The metaLINCS package provides three categories of important functions:
 computePeturbEnrichment, computeComboEnrichment and several plotting functions
