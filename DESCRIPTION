@@ -1,5 +1,5 @@
 Package: metaLINCS
-Title: Stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
+Title: Meta-analysis of LINCS L1000 drug signatures using stratified connectivity mapping
 Version: 0.9.0
 Authors@R: c(
     person("Ivo", "Kwee", , "kwee@bigomics.ch", role = "aut",
