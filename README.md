@@ -1,4 +1,4 @@
-# metaLINCS: an R package for stratified analysis of LINCS L1000 drug signatures using meta-level connectivity mapping
+# metaLINCS: an R package for meta-analysis of LINCS L1000 drug signatures using stratified connectivity mapping
 
 MetaLINCS calculates and visualizes the correlation between your
 experimental gene expression profile with perturbations signatures
