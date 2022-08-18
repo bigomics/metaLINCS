@@ -1,5 +1,5 @@
 ---
-title: "metaLINCS: an R package for meta-analysis of LINCS L1000 drug signatures using stratified connectivity mapping"
+title: "metaLINCS: an R package for meta-level analysis of LINCS L1000 drug signatures using stratified connectivity mapping"
 author: "Ivo Kwee and Layal Abo Khayal"
 date: "Compiled `r Sys.Date()`"
 output: 
