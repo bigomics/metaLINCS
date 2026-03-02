@@ -17,7 +17,8 @@
 #' res <- computeConnectivityEnrichment(mFC)
 #' plotActivationMap(res, nterms = 50, nfc=20, rot=TRUE)
 #'
-plotActivationMap <- function(res, nterms = 60, nfc = 20, rot=FALSE)
+plotActivationMap <- function(res, nterms = 60, nfc = 20, rot=FALSE,
+                              hclust.dist = c("euclidean","cor")[1] )
 {
     ##nterms=50;nfc=20
     nes <-res$X
@@ -44,12 +45,17 @@ plotActivationMap <- function(res, nterms = 60, nfc = 20, rot=FALSE)
     score <- score / (1e-8 + max(abs(score), na.rm = TRUE))
     
     if (NCOL(score) > 1) {
-        d1 <- stats::as.dist(1 - stats::cor(t(score), use = "pairwise"))
-        d2 <- stats::as.dist(1 - stats::cor(score, use = "pairwise"))        
-        d1[is.na(d1)] <- 1
-        d2[is.na(d2)] <- 1
-        jj <- 1
-        ii <- 1:nrow(score)
+        if(hclust.dist == "cor") {
+            d1 <- stats::as.dist(1 - stats::cor(t(score), use = "pairwise"))
+            d2 <- stats::as.dist(1 - stats::cor(score, use = "pairwise"))        
+            d1[is.na(d1)] <- 1
+            d2[is.na(d2)] <- 1
+        } else {
+            d1 <- stats::dist(score)
+            d2 <- stats::dist(t(score))
+            d1[is.na(d1)] <- mean(d1,na.rm=TRUE)
+            d2[is.na(d2)] <- mean(d2,na.rm=TRUE)
+        }
         ii <- stats::hclust(d1)$order
         jj <- stats::hclust(d2)$order
         score <- score[ii, jj, drop = FALSE]
