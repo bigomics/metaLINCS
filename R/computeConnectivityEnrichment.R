@@ -9,7 +9,6 @@
 #' @export
 #' @import stats
 #' @importFrom Matrix head
-#' @importFrom fgsea  fgseaSimple
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
@@ -68,24 +67,24 @@ computeConnectivityEnrichment <- function(mFC, names=NULL,
     res0 <- list()
     i <- 1
     for (i in 1:ncol(R1)) {
-        suppressWarnings(res0[[i]] <- fgsea::fgseaSimple(meta.gmt, stats = R1[, i], nperm = 1000))
+        res0[[i]] <- .runGSEA(meta.gmt, stats = R1[, i], nperm = 1000)
     }
     names(res0) <- colnames(R1)
     length(res0)
     
     mNES <- sapply(res0, function(x) x$NES)
-    mQ <- sapply(res0, function(x) x$padj)
-    mP <- sapply(res0, function(x) x$pval)
+    mQ <- sapply(res0, function(x) x$adj_p_value)
+    mP <- sapply(res0, function(x) x$p_value)
     if (length(res0) == 1) {
         mNES <- cbind(mNES)
         mP <- cbind(mP)
         mQ <- cbind(mQ)
     }
-    
-    pw <- res0[[1]]$pathway
+
+    pw <- res0[[1]]$set
     rownames(mNES) <- rownames(mQ) <- rownames(mP) <- pw
     colnames(mNES) <- colnames(mQ) <- colnames(mP) <- colnames(mFC)
-    msize <- res0[[1]]$size
+    msize <- res0[[1]]$set_size
     dim(R1)
     res <- list(X = mNES, Q = mQ, P = mP, size = msize)
     names(res)

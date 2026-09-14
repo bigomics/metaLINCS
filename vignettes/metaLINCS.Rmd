@@ -91,7 +91,7 @@ xdrugs <- gsub("[@_].*$", "", colnames(mDrugEnrich))
 meta.gmt <- tapply(colnames(mDrugEnrich), xdrugs, list)
 res <- list()
 for (i in 1:ncol(R1)) {
-   suppressWarnings(res[[i]] <- fgsea::fgseaSimple(meta.gmt, stats = R1[, i], nperm = 1000))
+   suppressWarnings(res[[i]] <- hpgsea::hpgsea(stats = R1[, i], gene_sets = meta.gmt, nperm = 1000, sort = FALSE))
 }
 ```
 

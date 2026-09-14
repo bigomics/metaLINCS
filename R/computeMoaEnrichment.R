@@ -5,7 +5,6 @@
 #'
 #' @return MoA Mechanism of Action object
 #' @export
-#' @importFrom fgsea  fgsea
 #'
 #' @examples # from the data-sets provided as examples within the package load the .rda files
 #' # DrugsAnnot, mDrugEnrich, mFC
@@ -84,15 +83,11 @@ computeMoaEnrichment <- function(res, annot = metaLINCS::DrugsAnnot ) {
     names(rnk) <- rownames(dt)
     
     ## get drug class
-    suppressWarnings(
-        moa.class <- fgsea::fgsea(gmt, rnk, nperm = 20000)
-    )
+    moa.class <- .runGSEA(gmt, stats = rnk, nperm = 20000)
     moa.class <- moa.class[order(-abs(moa.class$NES)), ]
-    
+
     ## get gene targets
-    suppressWarnings(
-        moa.target <- fgsea::fgsea(gmtar, rnk, nperm = 20000)
-    )
+    moa.target <- .runGSEA(gmtar, stats = rnk, nperm = 20000)
     moa.target <- moa.target[order(-abs(moa.target$NES)), ]
     
     moa <- list("drugClass" = moa.class, "targetGene" = moa.target)
