@@ -100,12 +100,11 @@ computeConnectivityEnrichment <- function(mFC, names=NULL,
         rownames(rx) <- rownames(res$X)
         mtop <- names(head(sort(rowMeans(rx), decreasing=TRUE),nprune))
         length(mtop)
-        top.idx <- unique(unlist(meta.gmt[mtop]))
-        length(top.idx)
+        mtop.idx <- match(mtop, rownames(res$X))
         res$X <- res$X[mtop, ,drop = FALSE]
         res$P <- res$P[mtop, ,drop = FALSE]
         res$Q <- res$Q[mtop, ,drop = FALSE]
-        res$size <- res$size[mtop]
+        res$size <- res$size[mtop.idx]
     }
 
     ## statistics (running metric)
