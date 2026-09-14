@@ -24,7 +24,7 @@ plotMOA <- function(moa, contr=NULL, type=c("drugClass","targetGene"), ntop = 20
     
     jj <- unique(c(utils::head(order(-df$NES), ntop), utils::tail(order(-df$NES), ntop)))
     moa.top <- df$NES[jj]
-    names(moa.top) <- df$set[jj]
+    names(moa.top) <- df$pathway[jj]
     par(mfrow = c(2, 1), mar = c(3.5, 4, 3.5, 3.5), mgp = c(2.5, 1, 0.5), cex=1)
     graphics::barplot(moa.top,
                       horiz = FALSE, las = 3,

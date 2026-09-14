@@ -73,18 +73,18 @@ computeConnectivityEnrichment <- function(mFC, names=NULL,
     length(res0)
     
     mNES <- sapply(res0, function(x) x$NES)
-    mQ <- sapply(res0, function(x) x$adj_p_value)
-    mP <- sapply(res0, function(x) x$p_value)
+    mQ <- sapply(res0, function(x) x$padj)
+    mP <- sapply(res0, function(x) x$pval)
     if (length(res0) == 1) {
         mNES <- cbind(mNES)
         mP <- cbind(mP)
         mQ <- cbind(mQ)
     }
 
-    pw <- res0[[1]]$set
+    pw <- res0[[1]]$pathway
     rownames(mNES) <- rownames(mQ) <- rownames(mP) <- pw
     colnames(mNES) <- colnames(mQ) <- colnames(mP) <- colnames(mFC)
-    msize <- res0[[1]]$set_size
+    msize <- res0[[1]]$size
     dim(R1)
     res <- list(X = mNES, Q = mQ, P = mP, size = msize)
     names(res)
