@@ -1,6 +1,8 @@
 #' Plot mechanism of action
 #'
-#' @param dsea is dsea object which is the output of the function getActiveDSEA()
+#' @param moa is the output object from `computeMoaEnrichment()`
+#' @param contr contrast to select; required when `moa` has multiple contrasts
+#' @param type which MoA enrichment to plot, either "drugClass" or "targetGene"
 #' @param ntop the number of the top enteries (genes or drug), ntop = 16 as a default value
 #'
 #' @return plot of mechanism of action

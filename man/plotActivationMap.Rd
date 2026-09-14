@@ -4,7 +4,13 @@
 \alias{plotActivationMap}
 \title{Plot drug Activity Map}
 \usage{
-plotActivationMap(res, nterms = 60, nfc = 20, rot = FALSE)
+plotActivationMap(
+  res,
+  nterms = 60,
+  nfc = 20,
+  rot = FALSE,
+  hclust.dist = c("euclidean", "cor")[1]
+)
 }
 \arguments{
 \item{res}{is a result object from the output of computeConnectivityEnrichment()}
@@ -14,6 +20,8 @@ plotActivationMap(res, nterms = 60, nfc = 20, rot = FALSE)
 \item{nfc}{maximum number of contrasts (integer)}
 
 \item{rot}{rotate the figure (boolean)}
+
+\item{hclust.dist}{distance metric for hierarchical clustering, either "euclidean" or "cor" (1 - correlation)}
 }
 \value{
 plot of drug activity map

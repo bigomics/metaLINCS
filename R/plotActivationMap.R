@@ -4,6 +4,7 @@
 #' @param nterms maximum number of terms (integer)
 #' @param nfc  maximum number of contrasts (integer)
 #' @param rot  rotate the figure (boolean)
+#' @param hclust.dist distance metric for hierarchical clustering, either "euclidean" or "cor" (1 - correlation)
 #'
 #' @return plot of drug activity map
 #' @export

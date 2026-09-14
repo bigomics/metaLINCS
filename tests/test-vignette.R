@@ -1,6 +1,4 @@
 if(0) {
-    devtools::load_all()
-    
     source("../R/computeConnectivityEnrichment.R")
     source("../R/computeMoaEnrichment.R")
     source("../R/plotDrugConnectivity.R")

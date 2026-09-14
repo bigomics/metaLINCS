@@ -21,16 +21,15 @@ Imports:
     gplots,
     graphics,
     Matrix,
-    qlcMatrix,
     stats,
-    utils,
-    uwot
+    utils
 Remotes:
     pnnl/hpgsea
 Suggests:
     fgsea,
     hpgsea,
     knitr,
+    RColorBrewer,
     rmarkdown,
     testthat (>= 3.0.0)
 VignetteBuilder: 

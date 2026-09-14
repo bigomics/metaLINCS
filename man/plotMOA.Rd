@@ -7,9 +7,13 @@
 plotMOA(moa, contr = NULL, type = c("drugClass", "targetGene"), ntop = 20)
 }
 \arguments{
-\item{ntop}{the number of the top enteries (genes or drug), ntop = 16 as a default value}
+\item{moa}{is the output object from \code{computeMoaEnrichment()}}
 
-\item{dsea}{is dsea object which is the output of the function getActiveDSEA()}
+\item{contr}{contrast to select; required when \code{moa} has multiple contrasts}
+
+\item{type}{which MoA enrichment to plot, either "drugClass" or "targetGene"}
+
+\item{ntop}{the number of the top enteries (genes or drug), ntop = 16 as a default value}
 }
 \value{
 plot of mechanism of action
